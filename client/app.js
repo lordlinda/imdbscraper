@@ -25,7 +25,7 @@ function getSearchResults(searchterm) {
         const a = document.createElement("a");
         //li.id = ;
         a.textContent = item.title;
-        a.href = "/client/movie.html?imdbID=" + item.imdbID;
+        a.href = "/movie.html?imdbID=" + item.imdbID;
         li.appendChild(a);
         List.appendChild(li);
       });
