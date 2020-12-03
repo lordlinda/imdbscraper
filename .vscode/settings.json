@@ -1,7 +1,0 @@
-{
-    "emmet.excludeLanguages": [
-         "javascriptreact",
-
-        "markdown"
-    ]
-}
