@@ -50,9 +50,10 @@ function getMovie(imdbID) {
         .filter(function () {
           return this.type === "text";
         })
-        .text();
+        .text()
+        .trim();
       const rating = $('meta[itemProp="contentRating"]').attr("content");
-      const runTime = $('time[itemProp="duration"]')
+      const runTime = $("div.txt-block time")
         .first()
         .contents()
         .filter(function () {
@@ -67,31 +68,32 @@ function getMovie(imdbID) {
           itemArray.push(item);
         };
       }
+
       const genres = [];
-      $('span[itemProp="genre"]').each(getItems(genres));
-      const datePublished = $('meta[itemProps="datePublished"').attr("content");
+      $("#titleStoryLine div h4:contains('Genres')").each(function (
+        i,
+        element
+      ) {
+        const item = $(element).parent().children("a").text();
+        genres.push(item);
+      });
+      const datePublished = $('meta[itemProps="datePublished"]').attr(
+        "content"
+      );
       const imdbRating = $("span[itemProp='ratingValue']").text();
       const poster = $("div.poster a img").attr("src");
       const summary = $("div.summary_text").text().trim();
-      const directors = [];
-      $('span[itemProp="director"]').each(getItems(directors));
-      const writers = [];
-      $('.credit_summary_item span[itemProp="creator"]').each(
-        getItems(writers)
-      );
-      const stars = [];
-      $('.credit_summary_item span[itemProp="actors"]').each(getItems(stars));
-      const storyline = $('#titleStoryLine div[itemProp="description"] p')
-        .text()
-        .trim();
 
-      const companies = [];
-      $('span[itemType="http://schema.org/Organization"').each(
-        getItems(companies)
-      );
-      const trailer = $('a[itemProp="trailer"').attr("href");
+      const stars = [];
+      $("table.cast_list tbody tr").each(function (i, element) {
+        const item = $(element).find("td:nth-child(2) a").text().trim();
+        stars.push(item);
+      });
+      const storyline = $("#titleStoryLine div p").text().trim();
+
+      const trailer = $("div.slate a").attr("href");
       const movie = {
-        imdbID: req.params.imdbID,
+        imdbID,
         title,
         rating,
         runTime,
@@ -100,11 +102,8 @@ function getMovie(imdbID) {
         imdbRating,
         poster,
         summary,
-        directors,
-        writers,
         stars,
         storyline,
-        companies,
         trailer: `https://www.imdb.com${trailer}`,
       };
       movieCache[imdbID] = movie;
