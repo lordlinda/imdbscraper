@@ -11,7 +11,7 @@ app.get("/search/:title", (req, res) => {
   });
 });
 
-app.get("/search/:imdbDB", (req, res) => {
+app.get("/movie/:imdbDB", (req, res) => {
   getMovie(req.params.imdbDB).then((movie) => {
     res.json(movie);
   });
