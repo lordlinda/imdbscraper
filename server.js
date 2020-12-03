@@ -1,7 +1,10 @@
 const express = require("express");
+const cors = require("cors");
+
 const app = express();
 const { searchMovies, getMovie } = require("./scraper");
 //   /search/:title
+app.use(cors());
 app.get("/search/:title", (req, res) => {
   searchMovies(req.params.title).then((movies) => {
     res.json(movies);

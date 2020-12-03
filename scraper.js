@@ -2,7 +2,6 @@ const fetch = require("node-fetch");
 const cheerio = require("cheerio");
 const searchUrl = "https://www.imdb.com/find?s=tt&ttype=ft&ref_=fn_ft&q=";
 const movieUrl = "https://www.imdb.com/title/";
-
 const movieCache = {};
 const searchCache = {};
 function searchMovies(searchterm) {
